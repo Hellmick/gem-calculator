@@ -166,13 +166,6 @@ func (rs *RecordSet) SortByDate() {
 	})
 }
 
-/*
-func getValueChange(recordSet *RecordSet) {
-	currentValue := recordSet.Records[len(recordSet.Records)-1].Close
-	initialValue := recordSet.Records[0].Close
-	recordSet.RoR = ((currentValue - initialValue) / initialValue) * 100
-}*/
-
 func main() {
 
 	config := Config{

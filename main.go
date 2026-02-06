@@ -15,11 +15,12 @@ import (
 )
 
 type Config struct {
-	Symbols          []string
-	UrlTemplate      string
-	SkipCurrentMonth bool
-	AbsoluteDay      int
-	FileLocation     string
+	Symbols              []string
+	UrlTemplate          string
+	SkipCurrentMonth     bool
+	AbsoluteDay          int
+	FileLocation         string
+	DeleteHistoricalData bool
 }
 
 type RecordSet struct {
@@ -169,11 +170,12 @@ func (rs *RecordSet) SortByDate() {
 func main() {
 
 	config := Config{
-		Symbols:          []string{"eimi.uk", "cndx.uk", "ief.us", "acwx.us"},
-		UrlTemplate:      "https://stooq.com/q/d/l/?s=%s&f=%s&t=%s&i=d",
-		SkipCurrentMonth: true,
-		AbsoluteDay:      0,
-		FileLocation:     "./data/",
+		Symbols:              []string{"eimi.uk", "cndx.uk", "ief.us", "acwx.us"},
+		UrlTemplate:          "https://stooq.com/q/d/l/?s=%s&f=%s&t=%s&i=d",
+		SkipCurrentMonth:     true,      // finish calculation a month earlier than the current month
+		AbsoluteDay:          0,         // 0 to disable, set a day number 0-current day (max 31) to set the absolute day of the month
+		FileLocation:         "./data/", // historical data desired location
+		DeleteHistoricalData: false,     // delete historical data after calculation
 	}
 
 	dateFrom, dateTo, err := getDateRange(config.SkipCurrentMonth, config.AbsoluteDay)
@@ -206,5 +208,14 @@ func main() {
 		}
 
 		log.Printf("symbol=%s ror=%.2f%%", recordSet.Symbol, ror)
+	}
+
+	if config.DeleteHistoricalData {
+		err = os.RemoveAll(config.FileLocation)
+		if err != nil {
+			log.Printf("There was an error during historical data removal: %s", err)
+		} else {
+			log.Printf("Directory with the historical data removed: %s", config.FileLocation)
+		}
 	}
 }

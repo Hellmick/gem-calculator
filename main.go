@@ -177,19 +177,17 @@ func main() {
 	}
 
 	dateFrom, dateTo, err := getDateRange(config.SkipCurrentMonth, config.AbsoluteDay)
-	dateFromStr := dateFrom.Format("20060102")
-	dateToStr := dateTo.Format("20060102")
 
 	log.Printf("Calculating GEM for the following symbols: %s", strings.Join(config.Symbols, ", "))
-	log.Printf("Date range: %s - %s", dateFromStr, dateToStr)
+	log.Printf("Date range: %s - %s", dateFrom.Format("02.01.2006"), dateTo.Format("02.01.2006"))
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	for _, symbol := range config.Symbols {
-		url := fmt.Sprintf(config.UrlTemplate, symbol, dateFromStr, dateToStr)
-		filename := fmt.Sprintf("%s_%s-%s.csv", symbol, dateFromStr, dateToStr)
+		url := fmt.Sprintf(config.UrlTemplate, symbol, dateFrom.Format("20060102"), dateTo.Format("20060102"))
+		filename := fmt.Sprintf("%s_%s-%s.csv", symbol, dateFrom.Format("20060102"), dateTo.Format("20060102"))
 
 		err := downloadData(url, config.FileLocation, filename)
 		if err != nil {

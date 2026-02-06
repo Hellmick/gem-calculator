@@ -33,12 +33,12 @@ type DayRecord struct {
 	Volume int64
 }
 
-func downloadData(url string, filePath string) error {
-	if err := os.MkdirAll(filePath, 0755); err != nil {
+func downloadData(url string, fileLocation string, fileName string) error {
+	if err := os.MkdirAll(fileLocation, 0755); err != nil {
 		return err
 	}
 
-	out, err := os.Create(filePath)
+	out, err := os.Create(fileLocation + fileName)
 	if err != nil {
 		return err
 	}
@@ -190,14 +190,13 @@ func main() {
 	for _, symbol := range config.Symbols {
 		url := fmt.Sprintf(config.UrlTemplate, symbol, dateFromStr, dateToStr)
 		filename := fmt.Sprintf("%s_%s-%s.csv", symbol, dateFromStr, dateToStr)
-		filePath := fmt.Sprintf("%s%s", config.FileLocation, filename)
 
-		err := downloadData(url, filePath)
+		err := downloadData(url, config.FileLocation, filename)
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		recordSet, err := getRecordSet(symbol, filePath)
+		recordSet, err := getRecordSet(symbol, config.FileLocation+filename)
 		if err != nil {
 			log.Fatal(err)
 		}

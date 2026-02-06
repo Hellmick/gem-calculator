@@ -19,14 +19,14 @@ A simple command-line tool written in Go to fetch historical stock/ETF data from
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/gem-cli.git
-cd gem-cli
+git clone https://github.com/Hellmick/gem-calculator.git
+cd gem-calculator
 ```
 2. Build the binary:
 ```bash
-go build -o gem
+go build -o gemc
 ```
 3. Run:
 ```bash
-./gem
+./gemc
 ```

@@ -173,9 +173,9 @@ func main() {
 		Symbols:              []string{"eimi.uk", "cndx.uk", "ief.us", "acwx.us"},
 		UrlTemplate:          "https://stooq.com/q/d/l/?s=%s&f=%s&t=%s&i=d",
 		SkipCurrentMonth:     true,      // finish calculation a month earlier than the current month
-		AbsoluteDay:          0,         // 0 to disable, set a day number 0-current day (max 31) to set the absolute day of the month
+		AbsoluteDay:          0,         // 0 to disable, set a day number 1-current day (max 31) to set the absolute day of the month
 		FileLocation:         "./data/", // historical data desired location
-		DeleteHistoricalData: false,     // delete historical data after calculation
+		DeleteHistoricalData: true,      // delete historical data after calculation
 	}
 
 	dateFrom, dateTo, err := getDateRange(config.SkipCurrentMonth, config.AbsoluteDay)
